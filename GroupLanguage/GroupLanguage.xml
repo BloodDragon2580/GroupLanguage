@@ -1,0 +1,74 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.blizzard.com/wow/ui/..\FrameXML\UI.xsd">
+    
+    
+    <Frame name="GroupLanguageButtonFrame" parent="Minimap" enableMouse="true" hidden="false" frameStrata="MEDIUM">
+        <Size>
+            <AbsDimension x="36" y="36" />
+        </Size>
+        <Anchors>
+            <Anchor point="TOPLEFT" relativeTo="Minimap"
+                    relativePoint="RIGHT">
+                <Offset>
+                    <AbsDimension x="-9" y="0" />
+                </Offset>
+            </Anchor>
+        </Anchors>
+        <Frames>
+            <Frame name="GroupLanguage_MinimapButton_DraggingFrame" hidden="true">
+                <Scripts>
+                    <OnUpdate>
+                        GroupLanguage_MinimapButton_DraggingFrame_OnUpdate()
+                    </OnUpdate>
+                </Scripts>
+            </Frame>
+        </Frames>
+        <Frames>
+            <Button name="GroupLanguageMButton" parent="Minimap" enableMouse="true" movable="true" hidden="false">
+                <Size>
+                    <AbsDimension x="36" y="36" />
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT">
+                        <Offset>
+                            <AbsDimension x="0" y="0" />
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <NormalTexture file="Interface\AddOns\GroupLanguage\art\up" />
+                <PushedTexture file="Interface\AddOns\GroupLanguage\art\down" />
+                <HighlightTexture alphaMode="ADD" file="Interface\Minimap\UI-Minimap-ZoomButton-Highlight" />
+                <Scripts>
+                    <OnClick>Button_OnClick();</OnClick>
+                    <OnLoad>
+                        GroupLanguageMButton:RegisterForClicks("LeftButtonUp","RightButtonUp")
+                        GroupLanguageMButton:RegisterForDrag("LeftButton","RightButton")
+                    </OnLoad>
+                    <OnDragStart>self:StartMoving();</OnDragStart>
+                    <OnDragStop>self:StopMovingOrSizing();</OnDragStop>
+ 
+                                        
+                    <OnEnter>
+                        if (not self.dragging) then
+                        GroupLanguage_MinimapButton_OnEnter(self)
+                        end
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </Button>
+        </Frames>
+    </Frame>
+    
+    <Frame name="GroupLanguageF">
+        
+        <Scripts>
+            <OnLoad>
+                GroupLanguage_OnLoad(self);
+            </OnLoad>
+        </Scripts>
+    </Frame>
+ 
+</Ui>

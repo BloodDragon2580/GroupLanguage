@@ -1,0 +1,11 @@
+## Interface: 80205
+## Title:|cffd6266cGroupLanguage|r
+## Author: Keltheraku, BloddDragon2580
+## Version: 2.0
+## SavedVariables: GroupLanguage_SaveData, GroupLanguage_MinimapbuttonState
+## Notes: Shows the realm-language of all members.
+
+## libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
+
+GroupLanguage.lua
+GroupLanguage.xml
