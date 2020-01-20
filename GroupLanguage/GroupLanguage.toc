@@ -1,7 +1,7 @@
-## Interface: 80205
+## Interface: 80300
 ## Title:|cffd6266cGroupLanguage|r
 ## Author: BloddDragon2580
-## Version: 2.1
+## Version: 3.0
 ## SavedVariables: GroupLanguage_SaveData, GroupLanguage_MinimapbuttonState
 ## Notes: Shows the realm-language of all members.
 
