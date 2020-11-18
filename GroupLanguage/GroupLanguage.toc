@@ -1,7 +1,7 @@
-## Interface: 90001
+## Interface: 90002
 ## Title:|cffd6266cGroupLanguage|r
 ## Author: BloddDragon2580
-## Version: 4.1
+## Version: 4.2
 ## SavedVariables: GroupLanguage_SaveData, GroupLanguage_MinimapbuttonState
 ## Notes: Shows the realm-language of all members.
 
