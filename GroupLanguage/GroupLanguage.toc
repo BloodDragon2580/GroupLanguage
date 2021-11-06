@@ -1,7 +1,7 @@
-## Interface: 90100
+## Interface: 90105
 ## Title:|cffd6266cGroupLanguage|r
 ## Author: BloddDragon2580
-## Version: 4.4
+## Version: 4.5
 ## SavedVariables: GroupLanguage_SaveData, GroupLanguage_MinimapbuttonState
 ## Notes: Shows the realm-language of all members.
 
