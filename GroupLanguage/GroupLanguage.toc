@@ -1,11 +1,10 @@
 ## Interface: 100002
 ## Title:|cffd6266cGroupLanguage|r
 ## Author: BloddDragon2580
-## Version: 5.4
+## Version: 5.5
 ## SavedVariables: GroupLanguage_SaveData, GroupLanguage_MinimapbuttonState
 ## Notes: Shows the realm-language of all members.
 
-## libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
-
+embeds.xml
 GroupLanguage.lua
 GroupLanguage.xml

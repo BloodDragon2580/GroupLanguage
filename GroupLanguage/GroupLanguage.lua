@@ -606,6 +606,58 @@ local function SlashCommandHandler(msg, editbox)
 end
 
 
+function GroupLanguage_OnLoad(panel)
+        
+      
+        panel.name = "GroupLanguage " .. GetAddOnMetadata("GroupLanguage", "Version");
+
+        InterfaceOptions_AddCategory(panel);
+
+        
+
+        btnShowMMB = CreateFrame("Button", "btn_showmmb", GroupLanguageF, "UIPanelButtonTemplate")
+        btnShowMMB:SetPoint("CENTER", -120, 0)
+        btnShowMMB:SetWidth(160)
+        btnShowMMB:SetHeight(22)
+        btnShowMMB:SetText("Show Minimap Button")
+	
+        btnShowMMB:SetScript("OnClick", 
+             function()
+              GroupLanguageMButton:Show()
+
+              GroupLanguage_MinimapbuttonState = 1
+        end);
+
+
+        btnHideMMB = CreateFrame("Button", "btn_hidemmb", GroupLanguageF, "UIPanelButtonTemplate")
+        btnHideMMB:SetPoint("CENTER", 120, 0)
+        btnHideMMB:SetWidth(160)
+        btnHideMMB:SetHeight(22)
+        btnHideMMB:SetText("Hide Minimap Button")
+	
+        btnHideMMB:SetScript("OnClick", 
+             function()
+              GroupLanguageMButton:Hide()
+
+              GroupLanguage_MinimapbuttonState = 0
+        end);
+
+
+        btnFrameLVL = CreateFrame("Button", "btn_framelvl", GroupLanguageF, "UIPanelButtonTemplate")
+        btnFrameLVL:SetPoint("CENTER", 0, -30)
+        btnFrameLVL:SetWidth(160)
+        btnFrameLVL:SetHeight(22)
+        btnFrameLVL:SetText("Set Button FrameLevel")
+	
+        btnFrameLVL:SetScript("OnClick", 
+             function()
+              GroupLanguageMButton:SetFrameLevel("200")
+        end);
+
+    end
+
+
+
 SLASH_GroupLanguage1 = "/GroupLanguage"
 SlashCmdList["GroupLanguage"] = SlashCommandHandler
 
