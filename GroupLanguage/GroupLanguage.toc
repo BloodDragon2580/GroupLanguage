@@ -1,7 +1,7 @@
-## Interface: 100007
+## Interface: 100100
 ## Title:|cffd6266cGroupLanguage|r
 ## Author: BloddDragon2580
-## Version: 5.7
+## Version: 5.8
 ## SavedVariables: GroupLanguage_SaveData, GroupLanguage_MinimapbuttonState
 ## Notes: Shows the realm-language of all members.
 
