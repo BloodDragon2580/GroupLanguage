@@ -1,9 +1,10 @@
 ## Interface: 100100
 ## Title:|cffd6266cGroupLanguage|r
 ## Author: BloddDragon2580
-## Version: 5.8
+## Version: 5.9
 ## SavedVariables: GroupLanguage_SaveData, GroupLanguage_MinimapbuttonState
 ## Notes: Shows the realm-language of all members.
+## IconTexture: Interface\AddOns\GroupLanguage\Media\Texture\logo
 
 embeds.xml
 GroupLanguage.lua
