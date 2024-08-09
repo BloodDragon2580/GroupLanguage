@@ -520,11 +520,11 @@ GroupLanguageArray_EU =
 local function spairs(t, order)
     local keys = {}
     for k in pairs(t) do
-		table.insert(keys, k)
-	end
+        table.insert(keys, k)
+    end
 
     if order then
-        table.sort(keys, function(a,b) return order(t, a, b) end)
+        table.sort(keys, function(a, b) return order(t, a, b) end)
     else
         table.sort(keys)
     end
@@ -539,227 +539,198 @@ local function spairs(t, order)
 end
 
 local function AggregatePlayers(list)
-	local partylanguages = GroupLanguageArray_US
-	if (GetCVar('portal') == "EU") then
-		partylanguages = GroupLanguageArray_EU
-	end
-	local rlist = {}
-	for i, v in pairs(list) do
-		local _, _, _, _, _, name, realm = GetPlayerInfoByGUID(i)
+    local partylanguages = GroupLanguageArray_US
+    if (GetCVar('portal') == "EU") then
+        partylanguages = GroupLanguageArray_EU
+    end
+    local rlist = {}
+    for i, v in pairs(list) do
+        local _, _, _, _, _, name, realm = GetPlayerInfoByGUID(i)
 
-                
+        if (name == nil or name == "") then
+            name = "Unknown"
+        end
+        if (realm == nil or realm == "") then
+            realm = GetRealmName()
+        end
 
-		if (name == nil or name == "") then
-			name = "Unknown"
-		end
-		if (realm == nil or realm == "") then
-			realm = GetRealmName()
-		end
-                
-		local rlang = partylanguages[realm]
-		if (rlang == nil) then
-			rlang = "Russian/Other"
-		end
-		if (rlist[rlang] == nil) then
-			rlist[rlang] = {}
-		end
-		table.insert(rlist[rlang], name.."-"..realm)
-	end
+        local rlang = partylanguages[realm]
+        if (rlang == nil) then
+            rlang = "Russian/Other"
+        end
+        if (rlist[rlang] == nil) then
+            rlist[rlang] = {}
+        end
+        table.insert(rlist[rlang], name.."-"..realm)
+    end
 
-	local rlines = {}
-	for i, v in spairs(rlist) do
-		local s = "|cFF00f04d"..i..":|cffffcc00"
-		local multi = false
-		table.sort(v)
-		for j, w in ipairs(v) do
-			if (multi == true) then
-				s = s..","
-			end
-			multi = true
-			s = s.." "..w
-		end
-		table.insert(rlines, s)
-	end
-	return rlines
+    local rlines = {}
+    for i, v in spairs(rlist) do
+        local s = "|cFF00f04d"..i..":|cffffcc00"
+        local multi = false
+        table.sort(v)
+        for j, w in ipairs(v) do
+            if (multi == true) then
+                s = s..","
+            end
+            multi = true
+            s = s.." "..w
+        end
+        table.insert(rlines, s)
+    end
+    return rlines
 end
 
 local function SlashCommandHandler(msg, editbox)
-	local list = {}
-	if (GetNumGroupMembers() > 0) then
-		for i = 1, 40 do
-			if (UnitExists("raid"..i)) then
-				list[UnitGUID("raid"..i)] = 1
-			end
-		end
-		for i = 1, 4 do
-			if (UnitExists("party"..i)) then
-				list[UnitGUID("party"..i)] = 1
-			end
-		end
-	end
-	list[UnitGUID("player")] = 1
-	local result = AggregatePlayers(list)
-	for i, v in ipairs(result) do
-		print(v)
-	end
-
+    local list = {}
+    if (GetNumGroupMembers() > 0) then
+        for i = 1, 40 do
+            if (UnitExists("raid"..i)) then
+                list[UnitGUID("raid"..i)] = 1
+            end
+        end
+        for i = 1, 4 do
+            if (UnitExists("party"..i)) then
+                list[UnitGUID("party"..i)] = 1
+            end
+        end
+    end
+    list[UnitGUID("player")] = 1
+    local result = AggregatePlayers(list)
+    for i, v in ipairs(result) do
+        print(v)
+    end
 end
 
-
+-- Stelle sicher, dass die OnLoad-Funktion existiert
 function GroupLanguage_OnLoad(panel)
-        
-      
-        panel.name = "GroupLanguage " .. GetAddOnMetadata("GroupLanguage", "Version");
+    panel.name = "GroupLanguage " .. GetAddOnMetadata("GroupLanguage", "Version")
 
-        InterfaceOptions_AddCategory(panel);
-
-        
-
-        btnShowMMB = CreateFrame("Button", "btn_showmmb", GroupLanguageF, "UIPanelButtonTemplate")
-        btnShowMMB:SetPoint("CENTER", -120, 0)
-        btnShowMMB:SetWidth(160)
-        btnShowMMB:SetHeight(22)
-        btnShowMMB:SetText("Show Minimap Button")
-	
-        btnShowMMB:SetScript("OnClick", 
-             function()
-              GroupLanguageMButton:Show()
-
-              GroupLanguage_MinimapbuttonState = 1
-        end);
-
-
-        btnHideMMB = CreateFrame("Button", "btn_hidemmb", GroupLanguageF, "UIPanelButtonTemplate")
-        btnHideMMB:SetPoint("CENTER", 120, 0)
-        btnHideMMB:SetWidth(160)
-        btnHideMMB:SetHeight(22)
-        btnHideMMB:SetText("Hide Minimap Button")
-	
-        btnHideMMB:SetScript("OnClick", 
-             function()
-              GroupLanguageMButton:Hide()
-
-              GroupLanguage_MinimapbuttonState = 0
-        end);
-
-
-        btnFrameLVL = CreateFrame("Button", "btn_framelvl", GroupLanguageF, "UIPanelButtonTemplate")
-        btnFrameLVL:SetPoint("CENTER", 0, -30)
-        btnFrameLVL:SetWidth(160)
-        btnFrameLVL:SetHeight(22)
-        btnFrameLVL:SetText("Set Button FrameLevel")
-	
-        btnFrameLVL:SetScript("OnClick", 
-             function()
-              GroupLanguageMButton:SetFrameLevel("200")
-        end);
-
+    -- Neues Register-Panel zur Interface-Optionen
+    if InterfaceOptionsFrame and InterfaceOptions_AddCategory then
+        InterfaceOptions_AddCategory(panel)
+    else
+        -- Alternativer Code für ältere WoW-Versionen oder spezifische Fälle
+        panel:SetParent(UIParent)
+        panel:SetPoint("CENTER")
+        panel:Show()
     end
 
+    -- Sicherstellen, dass die Buttons erstellt werden
+    btnShowMMB = CreateFrame("Button", "btn_showmmb", panel, "UIPanelButtonTemplate")
+    btnShowMMB:SetPoint("CENTER", -120, 0)
+    btnShowMMB:SetWidth(160)
+    btnShowMMB:SetHeight(22)
+    btnShowMMB:SetText("Show Minimap Button")
+    btnShowMMB:SetScript("OnClick", function()
+        GroupLanguageMButton:Show()
+        GroupLanguage_MinimapbuttonState = 1
+    end)
 
+    btnHideMMB = CreateFrame("Button", "btn_hidemmb", panel, "UIPanelButtonTemplate")
+    btnHideMMB:SetPoint("CENTER", 120, 0)
+    btnHideMMB:SetWidth(160)
+    btnHideMMB:SetHeight(22)
+    btnHideMMB:SetText("Hide Minimap Button")
+    btnHideMMB:SetScript("OnClick", function()
+        GroupLanguageMButton:Hide()
+        GroupLanguage_MinimapbuttonState = 0
+    end)
+
+    -- btnFrameLVL erstellen und initialisieren
+    btnFrameLVL = CreateFrame("Button", "btn_framelvl", panel, "UIPanelButtonTemplate")
+    btnFrameLVL:SetPoint("CENTER", 0, -30)
+    btnFrameLVL:SetWidth(160)
+    btnFrameLVL:SetHeight(22)
+    btnFrameLVL:SetText("Set Button FrameLevel")
+    btnFrameLVL:SetScript("OnClick", function()
+        GroupLanguageMButton:SetFrameLevel(200) -- Die FrameLevel muss als Zahl gesetzt werden
+    end)
+end
+
+-- Funktion zum Registrieren des Panels bei Addon-Load
+local function OnAddonLoaded(event, addonName)
+    if addonName == "GroupLanguage" then
+        -- Hier den Panel erstellen und aufrufen
+        local panel = CreateFrame("Frame", "GroupLanguageF", UIParent)
+        GroupLanguage_OnLoad(panel)
+    end
+end
+
+-- Event-Frame erstellen
+local frame = CreateFrame("Frame")
+frame:RegisterEvent("ADDON_LOADED")
+frame:SetScript("OnEvent", OnAddonLoaded)
 
 SLASH_GroupLanguage1 = "/GroupLanguage"
 SlashCmdList["GroupLanguage"] = SlashCommandHandler
 
-
 function Button_OnClick()
-
-   
-	SlashCommandHandler();	
+    SlashCommandHandler()
 end
 
 GroupLanguage_Settings = {
-	MinimapPos = GroupLanguage_SaveData;
-        mmbState = GroupLanguage_MinimapbuttonState;
+    MinimapPos = GroupLanguage_SaveData or 0,
+    mmbState = GroupLanguage_MinimapbuttonState or 0,
 }
 
 function GroupLanguage_MinimapButton_Reposition()
-                Button:SetPoint("TOPLEFT","Minimap","TOPLEFT",52-(80*cos(GroupLanguage_SaveData)),(80*sin(GroupLanguage_SaveData))-52)
-            end
+    Button:SetPoint("TOPLEFT", "Minimap", "TOPLEFT", 52 - (80 * cos(GroupLanguage_SaveData)), (80 * sin(GroupLanguage_SaveData)) - 52)
+end
 
 function GroupLanguage_MinimapButton_DraggingFrame_OnUpdate()
+    local xpos, ypos = GetCursorPosition()
+    local xmin, ymin = Minimap:GetLeft(), Minimap:GetBottom()
+    xpos = xmin - xpos / UIParent:GetScale() + 70
+    ypos = ypos / UIParent:GetScale() - ymin - 70
 
-	local xpos,ypos = GetCursorPosition()
-	local xmin,ymin = Minimap:GetLeft(), Minimap:GetBottom()
+    GroupLanguage_Settings.MinimapPos = math.deg(math.atan2(ypos, xpos))
+    GroupLanguage_MinimapButton_Reposition()
 
-	xpos = xmin-xpos/UIParent:GetScale()+70 -- get coordinates as differences from the center of the minimap
-	ypos = ypos/UIParent:GetScale()-ymin-70
-
-	GroupLanguage_Settings.MinimapPos = math.deg(math.atan2(ypos,xpos)) -- save the degrees we are relative to the minimap center
-	GroupLanguage_MinimapButton_Reposition() -- move the button
-
-        GroupLanguage_SaveData = 0
-        GroupLanguage_Settings.MinimapPos = 0
-        GroupLanguage_Settings.MinimapPos = GroupLanguage_SaveData
-
-            
-
-        GroupLanguage_MinimapButton_Reposition()
-
-        GroupLanguage_SaveData = GroupLanguage_Settings.MinimapPos
-
+    GroupLanguage_SaveData = GroupLanguage_Settings.MinimapPos
 end
-
-
-
-
-
 
 function GroupLanguage_MinimapButton_OnEnter(self)
-	if (self.dragging) then
-		return
-	end
-	GameTooltip:SetOwner(self or UIParent, "ANCHOR_LEFT")
-	GroupLanguage_MinimapButton_Details(GameTooltip)
+    if (self.dragging) then
+        return
+    end
+    GameTooltip:SetOwner(self or UIParent, "ANCHOR_LEFT")
+    GroupLanguage_MinimapButton_Details(GameTooltip)
 end
-
 
 function GroupLanguage_MinimapButton_Details(tt, ldb)
-	tt:SetText("GroupLanguage")
-
+    tt:SetText("GroupLanguage")
 end
 
-       
-
-local frame = CreateFrame("FRAME");
-
-frame:RegisterEvent("ADDON_LOADED");
-frame:RegisterEvent("PLAYER_LOGOUT");
-frame:RegisterEvent("GROUP_JOINED");
-
-frame:SetScript("OnEvent", function(self, event, arg1)
+local eventFrame = CreateFrame("Frame")
+eventFrame:RegisterEvent("ADDON_LOADED")
+eventFrame:RegisterEvent("PLAYER_LOGOUT")
+eventFrame:RegisterEvent("GROUP_JOINED")
+eventFrame:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" and arg1 == "GroupLanguage" then
-    
+        -- Sicherstellen, dass btnFrameLVL existiert
         if GroupLanguage_MinimapbuttonState == 0 then
             GroupLanguageMButton:Hide()
-        end
-
-        if GroupLanguage_MinimapbuttonState == 1 then
+        elseif GroupLanguage_MinimapbuttonState == 1 then
             GroupLanguageMButton:Show()
-            GroupLanguageMButton:SetFrameLevel("200")
+            GroupLanguageMButton:SetFrameLevel(200)
         end
 
         if GroupLanguage_SaveData == nil then
-      
             GroupLanguage_SaveData = GroupLanguage_Settings.MinimapPos
         end
-        
-              GroupLanguageMButton:SetFrameLevel("200")
 
-        btnFrameLVL:Hide(); 
-
-
+        GroupLanguageMButton:SetFrameLevel(200)
+        if btnFrameLVL then
+            btnFrameLVL:Hide()
+        end
     end
 
     if event == "PLAYER_LOGOUT" then
-            -- Save the time at which the character logs out
-            GroupLanguage_SaveData = GroupLanguage_Settings.MinimapPos
+        GroupLanguage_SaveData = GroupLanguage_Settings.MinimapPos
     end
 
     if event == "GROUP_JOINED" then
         C_Timer.After(3, SlashCommandHandler)
-        
-
     end
 end)
-
