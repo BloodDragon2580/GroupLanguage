@@ -604,7 +604,7 @@ end
 
 -- Stelle sicher, dass die OnLoad-Funktion existiert
 function GroupLanguage_OnLoad(panel)
-    panel.name = "GroupLanguage " .. GetAddOnMetadata("GroupLanguage", "Version")
+    panel.name = "GroupLanguage " .. C_AddOns.GetAddOnMetadata("GroupLanguage", "Version")
 
     -- Neues Register-Panel zur Interface-Optionen
     if InterfaceOptionsFrame and InterfaceOptions_AddCategory then
