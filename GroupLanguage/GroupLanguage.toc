@@ -1,7 +1,7 @@
-## Interface: 120100, 120007, 120005, 120105
+## Interface: 120100, 120007, 120005, 120105, 120107
 ## Title:|cffd6266cGroupLanguage|r
 ## Author: BloodDragon2580
-## Version: 15.4
+## Version: 15.5
 ## SavedVariables: GroupLanguage_SaveData, GroupLanguage_MinimapbuttonState
 ## Notes: Shows the realm-language of all members.
 ## IconTexture: Interface\AddOns\GroupLanguage\Media\Texture\logo
